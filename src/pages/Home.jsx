@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Nav from "../component/Nav";
 
 const Home = () => {
+  const navigate = useNavigate();
   const url =
     " https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/";
   const [data, setData] = useState([]);
   const [category, setCategory] = useState(null);
-  const [iscompleted, setIscompleted] = useState("");
+  // const [iscompleted, setIscompleted] = useState("");
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   console.log(category);
@@ -34,7 +36,7 @@ const Home = () => {
     if (category) {
       filtered = data.filter((product) => product.category === category);
     }
-    if (category == "All") {
+    if (category === "All") {
       filtered = data;
     }
     if (search !== "") {
@@ -44,39 +46,7 @@ const Home = () => {
   }, [data, category, search]);
 
   return (
-    <>
-      <nav className=" navbar navbar-expand-md navbar-light shadow-sm">
-        <div className="container">
-          <Link to="/" className="navbar-brand">
-            Upayment
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent123"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            className="collapse navbar-collapse"
-            id="navbarSupportedContent123"
-          >
-            <ul className="navbar-nav ms-auto mb-2 me-3 mb-lg-0">
-              <li>
-                <NavLink
-                  style={({ isActive }) => ({ color: isActive && "black" })}
-                  to="/"
-                  className="nav-link"
-                  aria-current="page"
-                >
-                  Register
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <body className="min-h-screen bg-silver relative">
       <div className="d-flex justify-between " style={{ alignItems: "center" }}>
         <input
           className="form-control me-2 w-25 pt-2 m-5"
@@ -102,30 +72,55 @@ const Home = () => {
           <option value="Accessories">Accessories</option>
         </select>
       </div>
-      <div className="d-flex flex-wrap">
+      <div className="d-flex flex-wrap justify-center">
         {filteredData?.map((item) => {
           const { avatar, id, price, name } = item;
           return (
-            <div className=" p-3" key={id}>
-              <div className="image" width="250px" height="250px">
-                <img
-                  src={avatar}
-                  alt={name}
-                  style={{
-                    width: "12rem",
-                    height: "12rem",
-                    margin: "auto",
-                  }}
-                />
-              </div>
+            <div className="text-center">
+              <div
+                className="bg-white rounded-lg  p-3 m-3  text-center cursor-pointer"
+                key={id}
+                onClick={() => navigate(`/productdetail/${id}`)}
+              >
+                <div
+                  className="image"
+                  width="250px"
+                  height="250px"
+                  objectFit="cover"
+                >
+                  <img
+                    src={avatar}
+                    alt={name}
+                    style={{
+                      width: "12rem",
+                      height: "12rem",
+                      margin: "auto",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
 
-              <h4>{name}</h4>
-              <p>${price}</p>
+                <h4>{name}</h4>
+                <p>${price}</p>
+              </div>
+              <button
+                type="button"
+                class="focus:outline-none text-white text-center bg-redligth hover:bg-red focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+              >
+                Delete
+              </button>
             </div>
           );
         })}
       </div>
-    </>
+      <button
+        type="button"
+        class="fixed right-0 top-2  focus:outline-none text-white text-center bg-black hover:bg-bluedark focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        onClick={() => navigate("/create")}
+      >
+        Add
+      </button>
+    </body>
   );
 };
 
