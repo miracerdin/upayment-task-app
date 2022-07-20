@@ -5,16 +5,43 @@ import axios from "axios";
 const Home = () => {
   const url =
     " https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/";
-  const [data, setData] = useState("");
-
+  const [data, setData] = useState([]);
+  const [category, setCategory] = useState(null);
+  const [iscompleted, setIscompleted] = useState("");
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  console.log(category);
+  console.log(search);
   const getData = async () => {
-    const data = await axios.get(url);
-    console.log(data);
-    setData(data.data);
+    try {
+      const data = await axios.get(url);
+      console.log(data.data);
+      setData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
   };
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    let filtered = data || [];
+    if (category) {
+      filtered = data.filter((product) => product.category === category);
+    }
+    if (category == "All") {
+      filtered = data;
+    }
+    if (search !== "") {
+      filtered = filtered.filter((product) => product?.name.includes(search));
+    }
+    setFilteredData(filtered);
+  }, [data, category, search]);
 
   return (
     <>
@@ -56,30 +83,44 @@ const Home = () => {
           type="search"
           placeholder="Search"
           aria-label="Search"
+          value={search}
+          onChange={handleSearch}
         />
 
         <select
           className="form-select w-25 h-10  m-5"
           id="floatingSelect"
           aria-label="Floating label select example"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option selected>Categories</option>
-          <option value="1">Electronic</option>
-          <option value="2">Furnitures</option>
-          <option value="3">Clothing</option>
-          <option value="3">Phones</option>
+          <option value="All">All</option>
+          <option value="Electronic">Electronic</option>
+          <option value="Furnitures">Furnitures</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Accessories">Accessories</option>
         </select>
       </div>
-      <div className="d-flex">
-        {data?.map((item) => {
+      <div className="d-flex flex-wrap">
+        {filteredData?.map((item) => {
           const { avatar, id, price, name } = item;
           return (
-            <div className=" p-3">
-              <img
-                src={avatar}
-                alt={name}
-                style={{ width: "150px", height: "100%" }}
-              />
+            <div className=" p-3" key={id}>
+              <div className="image" width="250px" height="250px">
+                <img
+                  src={avatar}
+                  alt={name}
+                  style={{
+                    width: "12rem",
+                    height: "12rem",
+                    margin: "auto",
+                  }}
+                />
+              </div>
+
+              <h4>{name}</h4>
+              <p>${price}</p>
             </div>
           );
         })}
