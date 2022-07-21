@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { url } from "../private/private";
 
 const Home = () => {
   const navigate = useNavigate();
-  const url =
-    " https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/";
+
   const [data, setData] = useState([]);
   const [category, setCategory] = useState(null);
-  const [iscompleted, setIscompleted] = useState("");
+  const [categories, setCategroies] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  console.log(category);
-  console.log(search);
   const getData = async () => {
     try {
-      const data = await axios.get(url);
+      const data = await axios.get(url + "/products/");
       console.log(data.data);
       setData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const { data } = await axios.get(url + "/categories/");
+      console.log(data);
+      setCategroies(data);
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +36,7 @@ const Home = () => {
   };
   useEffect(() => {
     getData();
+    getCategories();
   }, []);
 
   useEffect(() => {
@@ -35,7 +44,7 @@ const Home = () => {
     if (category) {
       filtered = data.filter((product) => product.category === category);
     }
-    if (category === "All") {
+    if (category === "All" || category === "Categories") {
       filtered = data;
     }
     if (search !== "") {
@@ -43,26 +52,18 @@ const Home = () => {
     }
     setFilteredData(filtered);
   }, [data, category, search]);
+
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${url}/${id}`);
+      await axios.delete(url + `products/${id}`);
     } catch (error) {
       console.log(error);
     }
     getData();
   };
-  // const categoriedSet = (category) => {
-  //   const filt = data.filter((item) => item.category !== category);
-  //   console.log(filt);
-  //   const setted = new Set(filt);
-  //   setIscompleted(setted);
-  // };
-  // useEffect(() => {
-  //   categoriedSet();
-  // }, []);
-  // console.log(iscompleted);
+
   return (
-    <body className="min-h-screen bg-silver relative">
+    <div className="min-h-screen bg-silver relative">
       <div className="d-flex justify-between " style={{ alignItems: "center" }}>
         <input
           className="form-control me-2 w-25 pt-2 m-5"
@@ -77,67 +78,73 @@ const Home = () => {
           className="form-select w-25 h-10  m-5"
           id="floatingSelect"
           aria-label="Floating label select example"
-          value={category}
+          defaultValue="Categories"
+          // value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option selected>Categories</option>
+          <option>Categories</option>
           <option value="All">All</option>
-          <option value="Electronic">Electronic</option>
-          <option value="Furnitures">Furnitures</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Accessories">Accessories</option>
+          {categories.map(({ name }, index) => (
+            <option key={index} value={name}>
+              {name}
+            </option>
+          ))}
         </select>
       </div>
       <div className="d-flex flex-wrap justify-center">
-        {filteredData?.map((item) => {
-          const { avatar, id, price, name } = item;
-          return (
-            <div className="text-center">
-              <div
-                className="bg-white rounded-lg  p-3 m-3  text-center cursor-pointer"
-                key={id}
-                onClick={() => navigate(`/productdetail/${id}`)}
-              >
+        {filteredData.length > 0 ? (
+          filteredData.map((item) => {
+            const { avatar, id, price, name } = item;
+            return (
+              <div key={id} className="text-center">
                 <div
-                  className="image"
-                  width="250px"
-                  height="250px"
-                  objectFit="cover"
+                  className="bg-white rounded-lg  p-3 m-3  text-center cursor-pointer"
+                  key={id}
+                  onClick={() => navigate(`/productdetail/${id}`)}
                 >
-                  <img
-                    src={avatar}
-                    alt={name}
-                    style={{
-                      width: "12rem",
-                      height: "12rem",
-                      margin: "auto",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
+                  <div
+                    className="image"
+                    width="250px"
+                    height="250px"
+                    // objectFit="cover"
+                  >
+                    <img
+                      src={avatar}
+                      alt={name}
+                      style={{
+                        width: "12rem",
+                        height: "12rem",
+                        margin: "auto",
+                        // objectFit: "cover",
+                      }}
+                    />
+                  </div>
 
-                <h4>{name}</h4>
-                <p>${price}</p>
+                  <h4>{name}</h4>
+                  <p>${price}</p>
+                </div>
+                <button
+                  type="button"
+                  className="focus:outline-none text-white text-center bg-redligth hover:bg-red focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  onClick={() => handleDelete(id)}
+                >
+                  Delete
+                </button>
               </div>
-              <button
-                type="button"
-                class="focus:outline-none text-white text-center bg-redligth hover:bg-red focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                onClick={() => handleDelete(id)}
-              >
-                Delete
-              </button>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div>There is no results for {category}</div>
+        )}
       </div>
       <button
         type="button"
-        class="fixed right-0 top-2  focus:outline-none text-white text-center bg-black hover:bg-bluedark focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        className="fixed right-0 top-16 sm:top-2 focus:outline-none text-white text-center bg-black hover:bg-bluedark focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
         onClick={() => navigate("/create")}
       >
         Add
       </button>
-    </body>
+    </div>
   );
 };
 
