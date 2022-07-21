@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [isloading, setIsLoadind] = useState(true);
   const url = `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/${id}`;
@@ -46,6 +47,12 @@ const ProductDetail = () => {
         <hr />
         <h6>Description</h6>
         <p className="w-96">{data.description}</p>
+        <button
+          onClick={() => navigate(-1)}
+          class="bg-bluedark hover:bg-bluemiddle text-white font-bold py-2 px-4 rounded-full"
+        >
+          Back
+        </button>
       </div>
     </div>
   );
