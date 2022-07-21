@@ -28,8 +28,8 @@ const ProductDetail = () => {
   }
   return (
     <div className="min-h-screen bg-silver d-flex flex-col justify-center items-center">
-      <div>
-        <div className="d-flex " width="250px" height="250px">
+      <div className=" my-4">
+        <div className="d-flex  " width="250px" height="250px">
           <img
             className="bg-white"
             src={data.avatar}
