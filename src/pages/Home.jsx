@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Nav from "../component/Nav";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -9,7 +8,7 @@ const Home = () => {
     " https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/";
   const [data, setData] = useState([]);
   const [category, setCategory] = useState(null);
-  // const [iscompleted, setIscompleted] = useState("");
+  const [iscompleted, setIscompleted] = useState("");
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   console.log(category);
@@ -52,7 +51,16 @@ const Home = () => {
     }
     getData();
   };
-
+  // const categoriedSet = (category) => {
+  //   const filt = data.filter((item) => item.category !== category);
+  //   console.log(filt);
+  //   const setted = new Set(filt);
+  //   setIscompleted(setted);
+  // };
+  // useEffect(() => {
+  //   categoriedSet();
+  // }, []);
+  // console.log(iscompleted);
   return (
     <body className="min-h-screen bg-silver relative">
       <div className="d-flex justify-between " style={{ alignItems: "center" }}>
