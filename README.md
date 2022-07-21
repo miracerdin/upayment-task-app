@@ -51,11 +51,11 @@ GET: https://62286b649fd6174ca82321f1.mockapi.io/case-study/categories/{id}
 
 There are going to be 3 pages:
 
-1.            Home Page:
+1.             Home Page:
 
-2.            Product Detail Page:
+2.             Product Detail Page:
 
-3.            Create Page:
+3.             Create Page:
 
 ## Technologies
 
@@ -77,9 +77,8 @@ $ npm start
 ```
 
 ## Illustrations
+
 ![upayment](https://user-images.githubusercontent.com/99042499/180323534-4ff05edb-a0ff-4b1b-a9cb-0170bdc95485.gif)
-
-
 
 ## Project Skeleton
 
@@ -90,42 +89,27 @@ $ npm start
 SOLUTION
 ├── public
 │     └── index.html
+|     ├── favicon.ico
 ├── src
-|    ├── assets
+|    ├── private
+│    │       ├── private.jsx
 │    ├── components
-│    │       ├── header
-│    │       │     ├── Form.js
-│    │       │     └── style.js
-│    │       ├── navbar
-│    │       |    ├── Navbar.js
-│    │       |      └── style.js
-│    │       ├── Recipe.jsx
-│    │       ├── RecipeList.jsx
+│    │       ├── navbar.jsx
 │    ├── pages
-│    │       ├── about
-│    │       │     ├── About.js
-│    │       │     └── style.js
-│    │       ├── details
-│    │       │     ├── Details.js
-│    │       │     └── style.js
-│    │       ├── login
-│    │       │     ├── Login.js
-│    │       │     └── style.js
-│    │       ├── home
-│    │       |      ├── Home.js
-│    │       |      ├── RecipeCard.js
-│    │       |      └── style.js
-│    │       ├── notfound
-│    │       │     ├── NotFound.jsx
-│    │       │     └── style.js
-│    ├── router
-│    │       └── PrivateRouter.jsx
+│    │       ├── Create.jsx
+│    │       ├── Footer.jsx
+│    │       ├── Footer.test.jsx
+│    │       ├── Home.jsx
+│    │       ├── ProductDetail.jsx
 │    ├── App.js
 │    ├── App.css
 │    ├── index.js
 │    └── index.css
 ├── package.json
-└── yarn.lock
+├── yarn.lock
+├──Readme.md
+├──tailwind.config.js
+└──gitignore
 ```
 
 ## Objective
