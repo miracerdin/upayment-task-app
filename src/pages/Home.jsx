@@ -44,9 +44,9 @@ const Home = () => {
     if (category) {
       filtered = data.filter((product) => product.category === category);
     }
-    if (category === "All" || category === "Categories") {
-      filtered = data;
-    }
+    // if (category === "All" || category === "Categories") {
+    //   filtered = data;
+    // }
     if (search !== "") {
       filtered = filtered.filter((product) => product?.name.includes(search));
     }

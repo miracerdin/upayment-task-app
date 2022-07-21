@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductDetail from "./pages/ProductDetail";
 import Create from "./pages/Create";
 import Nav from "./component/Nav";
+import Footer from "./pages/Footer";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/productdetail/:id" element={<ProductDetail />} />
         <Route path="/create" element={<Create />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

@@ -49,7 +49,7 @@ const ProductDetail = () => {
         <p className="w-96">{data.description}</p>
         <button
           onClick={() => navigate(-1)}
-          class="bg-bluedark hover:bg-bluemiddle text-white font-bold py-2 px-4 rounded-full"
+          className="bg-bluedark hover:bg-bluemiddle text-white font-bold py-2 px-4 rounded-full"
         >
           Back
         </button>
