@@ -40,7 +40,15 @@ const ProductDetail = () => {
             }}
           />
           <div className="d-flex flex-col justify-between mx-2">
-            <h2>{data.name}</h2>
+            <h4
+              style={{
+                maxWidth: "200px",
+                wordWrap: "break-word",
+                overflow: "hidden",
+              }}
+            >
+              {data.name}
+            </h4>
             <p>$ {data.price}</p>
           </div>
         </div>

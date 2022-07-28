@@ -11,6 +11,7 @@ const Home = () => {
   const [categories, setCategroies] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
   const getData = async () => {
     try {
       const data = await axios.get(url + "/products/");
@@ -44,9 +45,9 @@ const Home = () => {
     if (category) {
       filtered = data.filter((product) => product.category === category);
     }
-    // if (category === "All" || category === "Categories") {
-    //   filtered = data;
-    // }
+    if (category === "All" || category === "Categories") {
+      filtered = data;
+    }
     if (search !== "") {
       filtered = filtered.filter((product) => product?.name.includes(search));
     }
@@ -100,13 +101,14 @@ const Home = () => {
                 <div
                   className="bg-white rounded-lg  p-3 m-3  text-center cursor-pointer"
                   key={id}
+                  style={{ height: "350px" }}
                   onClick={() => navigate(`/productdetail/${id}`)}
                 >
                   <div
                     className="image"
                     width="250px"
                     height="250px"
-                    // objectFit="cover"
+                    box-sizing="border-box"
                   >
                     <img
                       src={avatar}
@@ -120,7 +122,15 @@ const Home = () => {
                     />
                   </div>
 
-                  <h4>{name}</h4>
+                  <h4
+                    style={{
+                      maxWidth: "200px",
+                      wordWrap: "break-word",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {name}
+                  </h4>
                   <p>${price}</p>
                 </div>
                 <button
